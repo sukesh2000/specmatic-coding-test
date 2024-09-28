@@ -1,0 +1,4 @@
+fileignoreconfig:
+- filename: src/main/kotlin/com/store/interceptors/AddProductInterceptor.kt
+  checksum: 4e7814868c1388fd6431c9a1c90250b9c4ea1ec9029c06d430128b361810a95d
+version: "1.0"

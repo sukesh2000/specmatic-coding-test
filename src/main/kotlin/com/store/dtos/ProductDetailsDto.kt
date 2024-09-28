@@ -1,24 +1,12 @@
 package com.store.dtos
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.store.serialization.StringOnlyDeserializer
-import jakarta.validation.constraints.Max
-import jakarta.validation.constraints.Min
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
 
-data class ProductDetailsDto(
-    val id: Int? = null,
-
-    @field:NotBlank(message = "Name is required")
-    @JsonDeserialize(using = StringOnlyDeserializer::class)
-    val name: String,
-
-    @field:NotNull(message = "Type is required")
-    val type: ProductType,
-
-    @field:NotNull(message = "Inventory is required")
-    @field:Min(value = 1, message = "Inventory value must be at least 0")
-    @field:Max(value = 9999, message = "Inventory value must be at most 120")
-    val inventory: Int?
+data class ProductDetailsDto (
+    @JsonProperty("id") val id: Int? = null,
+    @JsonProperty("name") val name: String,
+    @JsonProperty("type") val type: ProductType,
+    @JsonProperty("inventory") val inventory: Int,
+    @JsonProperty("cost") @JsonInclude(JsonInclude.Include.NON_NULL) val cost: Int? = null
 )
