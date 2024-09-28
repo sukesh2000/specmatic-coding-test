@@ -3,6 +3,7 @@ package com.store.controllers
 import com.store.dtos.ProductDetailsDto
 import com.store.dtos.ProductType
 import com.store.services.ProductService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -20,7 +21,7 @@ class ProductController(private val productService: ProductService) {
     }
 
     @PostMapping("/products")
-    fun addProduct(@RequestBody productDetailsDto: ProductDetailsDto): ResponseEntity<Map<String, Int>> {
+    fun addProduct(@Valid @RequestBody productDetailsDto: ProductDetailsDto): ResponseEntity<Map<String, Int>> {
         val addedProductId = productService.addProduct(productDetailsDto)
 
         return ResponseEntity.created(URI("/product/$addedProductId")).body(mapOf("id" to addedProductId))
