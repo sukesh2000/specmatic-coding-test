@@ -11,7 +11,7 @@ import java.net.URI
 
 @RestController
 class ProductController(private val productService: ProductService) {
-    @GetMapping(name = "/products")
+    @GetMapping("/products")
     fun getProducts(@RequestParam(required = false) type: ProductType?): ResponseEntity<List<ProductDetailsDto>> {
         if (type != null)
             return ResponseEntity(productService.getProductsByType(type), HttpStatus.OK)
@@ -19,7 +19,7 @@ class ProductController(private val productService: ProductService) {
         return ResponseEntity(productService.getAllProducts(), HttpStatus.OK)
     }
 
-    @PostMapping(name = "/products")
+    @PostMapping("/products")
     fun addProduct(@RequestBody productDetailsDto: ProductDetailsDto): ResponseEntity<Map<String, Int>> {
         val addedProductId = productService.addProduct(productDetailsDto)
 
