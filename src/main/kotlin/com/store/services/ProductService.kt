@@ -12,7 +12,7 @@ class ProductService(private val productRepository: ProductRepository) {
     fun getProductById(id: Int) = productRepository.findById(id)
 
     fun getProductsByType(productType: ProductType) =
-        productRepository.findAll().filter { productDetailsDto -> productDetailsDto.type.equals(productType) }
+        productRepository.findAll().filter { productDetailsDto -> productDetailsDto.type == productType }
 
     fun addProduct(productDetailsDto: ProductDetailsDto) = productRepository.save(productDetailsDto)
 }

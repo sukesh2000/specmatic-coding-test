@@ -45,7 +45,7 @@ class AddProductInterceptor : HandlerInterceptor {
 
     private fun valid(data: Map<String, Any?>, response: HttpServletResponse, mapper: ObjectMapper): Boolean {
         if (isMissingOrNull(data, "name") || data["name"] !is String || (data["name"] as String).isBlank()) {
-            badRequest("name", response, mapper)
+            handleInvalidRequest("name", response, mapper)
             return false
         }
 
@@ -54,19 +54,19 @@ class AddProductInterceptor : HandlerInterceptor {
                 false
         } catch (e: IllegalArgumentException) {
             true }) {
-            badRequest("type", response, mapper)
+            handleInvalidRequest("type", response, mapper)
             return false
         }
 
         if (isMissingOrNull(data, "inventory") ||
             data["inventory"] !is Int ||
             (data["inventory"] as Int) !in 1..9999) {
-            badRequest("inventory", response, mapper)
+            handleInvalidRequest("inventory", response, mapper)
             return false
         }
 
         if (data.containsKey("cost") && (data["cost"] == null || data["cost"] !is Int)) {
-            badRequest("cost", response, mapper)
+            handleInvalidRequest("cost", response, mapper)
             return false
         }
 
@@ -76,7 +76,7 @@ class AddProductInterceptor : HandlerInterceptor {
     private fun isMissingOrNull(data: Map<String, Any?>, requestField: String) =
         !data.containsKey(requestField) || data[requestField] == null
 
-    private fun badRequest(responseField: String, response: HttpServletResponse, mapper: ObjectMapper) {
+    private fun handleInvalidRequest(responseField: String, response: HttpServletResponse, mapper: ObjectMapper) {
         response.status = HttpStatus.BAD_REQUEST.value()
         response.contentType = MediaType.APPLICATION_JSON_VALUE
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")
